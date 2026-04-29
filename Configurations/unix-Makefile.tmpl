@@ -1774,8 +1774,12 @@ EOF
               push @linklibs, platform->convertext($_);
           } else {
               my $d = "-L" . dirname($_);
-              my $l = basename($_);
+              my $s = platform->sharedlib_simple($_)
+                      // platform->sharedlib_import($_)
+                      // platform->sharedlib($_);
+              my $l = defined $s ? basename($s) : basename($_);
               $l =~ s/^lib//;
+              $l =~ s/\.[^.]+$//;
               $l = "-l" . $l;
               push @linklibs, $l;
               push @linkdirs, $d unless grep { $d eq $_ } @linkdirs;
@@ -1911,8 +1915,12 @@ EOF
               push @linklibs, platform->convertext($_);
           } else {
               my $d = "-L" . dirname($_);
-              my $l = basename($_);
+              my $s = platform->sharedlib_simple($_)
+                      // platform->sharedlib_import($_)
+                      // platform->sharedlib($_);
+              my $l = defined $s ? basename($s) : basename($_);
               $l =~ s/^lib//;
+              $l =~ s/\.[^.]+$//;
               $l = "-l" . $l;
               push @linklibs, $l;
               push @linkdirs, $d unless grep { $d eq $_ } @linkdirs;
@@ -1976,8 +1984,12 @@ EOF
               push @linklibs, platform->convertext($_);
           } else {
               my $d = "-L" . dirname($_);
-              my $l = basename($_);
+              my $s = platform->sharedlib_simple($_)
+                      // platform->sharedlib_import($_)
+                      // platform->sharedlib($_);
+              my $l = defined $s ? basename($s) : basename($_);
               $l =~ s/^lib//;
+              $l =~ s/\.[^.]+$//;
               $l = "-l" . $l;
               push @linklibs, $l;
               push @linkdirs, $d unless grep { $d eq $_ } @linkdirs;

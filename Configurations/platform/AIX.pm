@@ -33,10 +33,13 @@ sub staticname {
 }
 
 # In solib mode, we do not install the simple symlink (we install the import
-# library).  In regular mode, we install the symlink.
+# library).  In regular mode, we install the archive (.a) which is the actual
+# link target, so it must include the shlib_variant to avoid collisions.
 sub sharedlib_simple {
     return undef if $target{shared_target} eq "aix-solib";
-    return platform::Unix->sharedlib_simple($_[1], $_[0]->shlibextsimple());
+    my $name = $_[0]->sharedname($_[1]);
+    return undef unless defined $name;
+    return platform::BASE::__concat($name, $_[0]->shlibextsimple());
 }
 
 # In solib mode, we install the import library.  In regular mode, we have
